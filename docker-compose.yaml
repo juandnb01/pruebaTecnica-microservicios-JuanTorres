@@ -1,0 +1,41 @@
+version: "3.9"
+services:
+  mysql8:
+    container_name: mysql8
+    image: mysql:8
+    ports:
+      - "3307:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: sasa
+      MYSQL_DATABASE: db_clientes_cuentasMovimientos
+    volumes:
+      - data-mysql:/var/lif/mysql
+    restart: always
+    networks:
+      - spring
+  msvc-cliente-persona:
+    container_name: msvc-cliente-persona
+    image: juandnb13/clientes:latest
+    ports:
+      - "8001-8001"
+    env_file: ./msvc-cliente-persona/.env
+    networks:
+      - spring
+    restart: always
+  msvc-cuenta-movimientos:
+    container_name: msvc-cuenta-movimiento
+    image: juandnb13/cuentam:latest
+    ports:
+      - "8002:8002"
+    env_file: ./msvc-cuenta-movimientos/.env
+    networks:
+      - spring
+    restart: always
+volumes:
+  data-mysql:
+    name: data-mysql
+networks:
+  spring:
+    name: spring
+
+
